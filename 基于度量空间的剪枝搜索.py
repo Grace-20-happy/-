@@ -23,13 +23,14 @@ pivots_idx = [0]  # 先随机选第一个点 （!最远优先遍历）
 for _ in range(4):  # 我们一共选 5 个参考点
     # 找到距离当前已选参考点集最远的点
     #这个计算量太大：
-    # dists = [min([euclidean_dist(data[i], data[p]) for p in pivots_idx]) for i in range(N)]
-    # 这一行替代你那行复杂的列表推导式
+    dists = [min([euclidean_dist(data[i], data[p]) for p in pivots_idx]) for i in range(N)]
+    
+    # 这一行替代你那行复杂的列表推导式：
     # data[pivots_idx] 是一个 (k, 5) 的矩阵
     # data[:, np.newaxis] 是一个 (N, 1, 5) 的矩阵
     # 这样一次性算出所有点对所有参考点的距离
-    dists_matrix = np.linalg.norm(data[:, np.newaxis] - data[pivots_idx], axis=2)
-    dists = np.min(dists_matrix, axis=1)
+    #dists_matrix = np.linalg.norm(data[:, np.newaxis] - data[pivots_idx], axis=2)
+    #dists = np.min(dists_matrix, axis=1)
     pivots_idx.append(np.argmax(dists))
 
 pivots = data[pivots_idx]
